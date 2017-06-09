@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type">
+    <script src="./res/jQuery/jquery.1.11.0.min.js"></script>
+    <style type="text/css"></style>
+</head>
+<body>
+ index.html首页
+<div id="app">
+    <ul>
+        <li v-for="item in optionList">
+            <span>编号:{{item.val}}</span>--
+            <span>选项:{{item.text}}</span>
+        </li>
+    </ul>
+</div>
+
+</body>
+<script src="./res/vue/vue.2.2.6.js"></script>
+<script>
+
+$(function () {
+    var VMapp=new Vue({
+        el:'#app',
+        data:{
+            optionList:[]
+        }
+    });
+    $.ajax({
+        url:'/optionsUrl',
+        type:'GET',
+        dataTpye:'text',
+        data:{}
+    }).done(function (data) {
+        VMapp.optionList=data.data;
+    })
+})
+</script>
+</html>
