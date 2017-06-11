@@ -6,6 +6,7 @@
   "dependencies": {
     "body-parser": "^1.4.3",
     "cheerio": "^1.0.0-rc.1",
+    "ejs": "^2.5.6",
     "express": "^4.4.5",
     "fs": "0.0.1-security",
     "sync-request": "^4.1.0"

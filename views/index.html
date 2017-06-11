@@ -5,17 +5,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type">
     <script src="./res/jQuery/jquery.1.11.0.min.js"></script>
+    <script src="./res/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./res/bootstrap-3.3.5-dist/css/bootstrap.min.css">
     <style type="text/css"></style>
 </head>
 <body>
  index.html首页
+<div class="tab">
+    <input class="button btn" type="button" value="缓存数据" data-type="1">
+    <input class="button btn" type="button" value="实时数据" data-type="0">
+</div>
 <div id="app">
-    <ul>
+    <ul v-if="optionList.length>0">
         <li v-for="item in optionList">
-            <span>编号:{{item.val}}</span>--
-            <span>选项:{{item.text}}</span>
+            <span>编号:{{item.val}}</span>--<span>选项:{{item.text}}</span>
         </li>
     </ul>
+    <div v-else class="load">数据加载中......</div>
 </div>
 
 </body>
@@ -29,14 +35,24 @@ $(function () {
             optionList:[]
         }
     });
-    $.ajax({
-        url:'/optionsUrl',
-        type:'GET',
-        dataTpye:'text',
-        data:{}
-    }).done(function (data) {
-        VMapp.optionList=data.data;
-    })
+    $('.tab').on('click','input',function () {
+       var type=$(this).attr('data-type');
+        VMapp.optionList.splice(0,VMapp.optionList.length);
+        getAllOptions(type);
+    });
+    function getAllOptions(type) {
+        $.ajax({
+            url:'/optionsUrl',
+            type:'POST',
+            dataTpye:'text',
+            data:{
+                type:type
+            }
+        }).done(function (data) {
+            VMapp.optionList=data.data;
+        })
+    }
+    getAllOptions(1);
 })
 </script>
 </html>
