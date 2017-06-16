@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>test</title>
+    <title>首页</title>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type">
     <script src="./res/jQuery/jquery.1.11.0.min.js"></script>
@@ -37,10 +37,10 @@ $(function () {
     });
     $('.tab').on('click','input',function () {
        var type=$(this).attr('data-type');
-        VMapp.optionList.splice(0,VMapp.optionList.length);
         getAllOptions(type);
     });
-    function getAllOptions(type) {
+    function getAllOptions(type){
+        VMapp.optionList.splice(0,VMapp.optionList.length);
         $.ajax({
             url:'/optionsUrl',
             type:'POST',

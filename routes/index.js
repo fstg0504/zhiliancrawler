@@ -21,7 +21,6 @@ module.exports = function(app) {
         res.send(filestr);
     });
     app.get('/', function (req, res) {
-        console.log(1111)
         res.render('index', { title: 'Express' });
     });
     //爬虫所有行业选项

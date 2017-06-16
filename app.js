@@ -8,8 +8,6 @@ var ejs = require('ejs');
 var approuter=express.Router;
 var routes = require('./routes/index');
 app.set('port', (process.env.PORT ||8080));
-app.use(express.static('public'));
-app.use(express.static('views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.json());
