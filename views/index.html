@@ -10,24 +10,50 @@
     <style type="text/css"></style>
 </head>
 <body>
- index.html首页
-<div class="tab">
+<div class="container">
+    index.html首页
+    <div class="tab">
     <input class="button btn" type="button" value="缓存数据" data-type="1">
     <input class="button btn" type="button" value="实时数据" data-type="0">
+    <span onclick="test(489)">全国</span>
 </div>
-<div id="app">
-    <ul v-if="optionList.length>0">
-        <li v-for="item in optionList">
-            <span>编号:{{item.val}}</span>--<span>选项:{{item.text}}</span>
-        </li>
-    </ul>
+    <div id="app">
+    <table v-if="optionList.length>0" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>编号</th>
+                <th>选项名称</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in optionList">
+                <th>{{index+1}}</th>
+                <td>{{item.val}}</td>
+                <td>{{item.text}}</td>
+            </tr>
+        </tbody>
+    </table>
     <div v-else class="load">数据加载中......</div>
 </div>
-
+</div>
 </body>
 <script src="./res/vue/vue.2.2.6.js"></script>
 <script>
+    function test(cityId){
+        $.ajax({
+            url:'/getDetailByCity',
+            dataType:'json',
+            type:"get",
+            success:function(data){
+                console.log(data);
+            },
+            error:function (err) {
+                console.log(err);
+            }
+        })
 
+    }
 $(function () {
     var VMapp=new Vue({
         el:'#app',
@@ -53,6 +79,41 @@ $(function () {
         })
     }
     getAllOptions(1);
+    function getDetailByCity(cityId){
+        $.ajax({
+            url:'http://top.zhaopin.com/Home/_Top50Detail?Length=4',
+            dataType:'html',
+            type:"POST",
+            data:{
+                industry_10:'',
+                time_10:2,
+                cityId:cityId,
+                cityName:'',
+                isAjaxRequest:true,
+                id:'HotJobTop'
+            }
+            ,success:function(data){
+                console.log(data);
+            },errorfunction (err) {
+                console.log(err);
+            }
+        })
+
+    }
+    //getDetailByCity(489);
+
+
+
+
+
+
+
+
+
+
+
+
 })
+
 </script>
 </html>
