@@ -1,0 +1,8 @@
+html{width:100%;height:auto;}
+body{
+    width: 100%;
+    height: auto;
+    background-color: #f1f1f1;
+    background: url('/img/bg-1.jpg');
+}
+.container{padding: 0;width: 100%;}

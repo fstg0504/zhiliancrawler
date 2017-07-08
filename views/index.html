@@ -4,47 +4,51 @@
     <title>首页</title>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type">
+    <link rel="icon" href="favicon.ico"/>
     <script src="./res/jQuery/jquery.1.11.0.min.js"></script>
     <script src="./res/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./res/bootstrap-3.3.5-dist/css/bootstrap.min.css">
-    <style type="text/css"></style>
+    <link rel="stylesheet" type="text/css" href="./css/base.css">
+    <style>
+        #app{width:640px;margin: 0 auto;color:#a59d9d;}
+    </style>
 </head>
 <body>
 <div class="container">
-    index.html首页
     <div class="tab">
     <input class="button btn" type="button" value="缓存数据" data-type="1">
     <input class="button btn" type="button" value="实时数据" data-type="0">
-    <span onclick="test(489)">全国</span>
+        <div id="app">
+            <table v-if="optionList.length>0" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>编号</th>
+                    <th>选项名称</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item,index) in optionList">
+                    <th>{{index+1}}</th>
+                    <td>{{item.val}}</td>
+                    <td>{{item.text}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div v-else class="load">数据加载中......</div>
+        </div>
 </div>
-    <div id="app">
-    <table v-if="optionList.length>0" class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>序号</th>
-                <th>编号</th>
-                <th>选项名称</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(item,index) in optionList">
-                <th>{{index+1}}</th>
-                <td>{{item.val}}</td>
-                <td>{{item.text}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div v-else class="load">数据加载中......</div>
-</div>
+
 </div>
 </body>
 <script src="./res/vue/vue.2.2.6.js"></script>
 <script>
     function test(cityId){
         $.ajax({
-            url:'/getDetailByCity',
+            url:'/getDataByCityId',
             dataType:'json',
-            type:"get",
+            type:"POST",
+            data:{id:cityId},
             success:function(data){
                 console.log(data);
             },
@@ -69,7 +73,7 @@ $(function () {
         VMapp.optionList.splice(0,VMapp.optionList.length);
         $.ajax({
             url:'/optionsUrl',
-            type:'POST',
+            type:'GET',
             dataTpye:'text',
             data:{
                 type:type

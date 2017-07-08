@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>城市详情</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type">
+    <link rel="icon" href="favicon.ico"/>
+    <script src="./res/jQuery/jquery.1.11.0.min.js"></script>
+    <script src="./res/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./res/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/base.css">
+    <link rel="stylesheet" type="text/css" href="./css/city.css">
+</head>
+<body>
+<div class="container">
+      <header class="header">
+          <span>主要城市排行榜</span>
+      </header>
+    <div class="main">
+        <div class="con1 con-box">
+            <div class="c-left box-item">
+                <div class="list-group" id="citybox">
+                    <template v-if="citylist.length>0">
+                        <template  v-for="(item,index) in citylist">
+                            <a :id="item.id" @click="showCityTop(index,item.id)" href="javascript:void(0)" class="list-group-item" :class="{'active':item.active}">{{item.option}}</a>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <div class="c-right"></div>
+        </div>
+
+    </div>
+</div>
+</body>
+<script src="./res/vue/vue.2.2.6.js"></script>
+<script>
+$(function () {
+    let VMapp=new Vue({
+        el:'#citybox',
+        data:{
+            citylist:[]
+        },
+        created:function () {
+            getCityList(0);
+        },
+        methods:{
+            showCityTop:function (index,id) {
+                for (var  i in this.citylist){
+                    var node=this.citylist[i];
+                    if(i==index){
+                        node.active=true;
+                    }else {
+                        node.active=false;
+                    }
+                }
+            }
+        }
+    });
+    function getCityList(type) {
+        $.ajax({
+            url:'/getCityList',
+            dataType:'json',
+            type:"GET",
+            data:{type:type}
+        }).done(function (data) {
+            for(var i in data.data){
+                data.data[i].active=false;
+            }
+            VMapp.citylist=data.data;
+            console.log(VMapp)
+        }).fail(function (data) {
+
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+})
+
+</script>
+</html>
